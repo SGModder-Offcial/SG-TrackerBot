@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: 1024 * 1024 * 20, type: '
 app.set("view engine", "ejs");
 
 // Modify your URL here
-var hostURL = "https://gen.djdjkdsk.repl.co";
+var hostURL = "https://sgpapa.adaptable.app";
 // TOGGLE for Shorters
 var use1pt = false;
 
