@@ -19,7 +19,7 @@ var use1pt = false;
 // Function to check if the user has joined the channel
 async function checkChannelMembership(chatId) {
   try {
-    const member = await bot.getChatMember("@SG_Modder0", chatId); // Replace "@SG_Modder0" with your channel's username
+    const member = await bot.getChatMember("@SG_Modder1", chatId); // Replace "@SG_Modder1" with your channel's username
     return member.status === "member" || member.status === "administrator" || member.status === "creator";
   } catch (error) {
     console.error("Error checking channel membership:", error);
@@ -63,7 +63,7 @@ bot.on('message', async (msg) => {
     if (!isMember) {
       const joinButton = {
         text: "Join Channel",
-        url: "https://t.me/SG_Modder0"
+        url: "https://t.me/SG_Modder1"
       };
       const m = {
         reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -82,7 +82,7 @@ bot.on('message', async (msg) => {
       reply_markup: JSON.stringify({ "inline_keyboard": [
         [{ text: "🌐 𝐂𝐫𝐞𝐚𝐭𝐞 𝐋𝐢𝐧𝐤 🌐", callback_data: "crenew" }],
         [{ text: "🔗 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐞 𝐋𝐢𝐧𝐤 🔗", callback_data: "generateLink" }],
-        [{ text: "📡 𝐉𝐨𝐢𝐧 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 📡", url: "https://t.me/SG_Modder0" }]
+        [{ text: "📡 𝐉𝐨𝐢𝐧 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 📡", url: "https://t.me/SG_Modder1" }]
       ]})
     };
 
@@ -95,7 +95,7 @@ bot.on('message', async (msg) => {
     if (!isMember) {
       const joinButton = {
         text: "Join Channel",
-        url: "https://t.me/SG_Modder0"
+        url: "https://t.me/SG_Modder1"
       };
       const m = {
         reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -109,7 +109,7 @@ bot.on('message', async (msg) => {
     if (!isMember) {
       const joinButton = {
         text: "Join Channel",
-        url: "https://t.me/SG_Modder0"
+        url: "https://t.me/SG_Modder1"
       };
       const m = {
         reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -122,7 +122,7 @@ bot.on('message', async (msg) => {
 2. 𝗪𝗲𝗯𝘃𝗶𝗲𝘄 𝗟𝗶𝗻𝗸: 𝗧𝗵𝗶𝘀 𝘄𝗶𝗹𝗹 𝗱𝗶𝘀𝗽𝗹𝗮𝘆 𝗮 𝘄𝗲𝗯𝘀𝗶𝘁𝗲 𝘂𝘀𝗶𝗻𝗴 𝗶𝗳𝗿𝗮𝗺𝗲 𝘁𝗼 𝗰𝗼𝗹𝗹𝗲𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻.\n\n📝 𝗡𝗼𝘁𝗲: 𝗠𝗮𝗻𝘆 𝘀𝗶𝘁𝗲𝘀 𝗺𝗮𝘆 𝗻𝗼𝘁 𝘄𝗼𝗿𝗸 𝘂𝗻𝗱𝗲𝗿 𝘁𝗵𝗶𝘀 𝗺𝗲𝘁𝗵𝗼𝗱 𝗶𝗳 𝘁𝗵𝗲𝘆 𝗵𝗮𝘃𝗲 𝘅-𝗳𝗿𝗮𝗺𝗲 𝗼𝗽𝘁𝗶𝗼𝗻𝘀 𝘀𝗲𝘁. 𝗙𝗼𝗿 𝗲𝘅𝗮𝗺𝗽𝗹𝗲, 𝗵𝘁𝘁𝗽𝘀://𝗴𝗼𝗼𝗴𝗹𝗲.𝗰𝗼𝗺.\n\n🔍 𝗘𝗻𝗷𝗼𝘆 𝘁𝗿𝗮𝗰𝗸𝗶𝗻𝗴! 🕵️‍♂️🔍`);
   } // New command: /tutorial
   else if (msg.text == "/tutorial") {
-  const tutorialVideo = 'https://t.me/SG_Modder0/4398'; // Replace 'example.com/tutorial.mp4' with your tutorial video link
+  const tutorialVideo = 'https://t.me/SG_Modder1/4398'; // Replace 'example.com/tutorial.mp4' with your tutorial video link
   bot.sendVideo(chatId, tutorialVideo);
 }
  
@@ -164,7 +164,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
     if (!isMember) {
       const joinButton = {
         text: "Join Channel",
-        url: "https://t.me/SG_Modder0"
+        url: "https://t.me/SG_Modder1"
       };
       const m = {
         reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -236,7 +236,7 @@ async function generateLinkButton(cid) {
   if (!isMember) {
     const joinButton = {
       text: "Join Channel",
-      url: "https://t.me/SG_Modder0" // Replace "YourChannelUsername" with your channel's username
+      url: "https://t.me/SG_Modder1" // Replace "YourChannelUsername" with your channel's username
     };
     const m = {
       reply_markup: JSON.stringify({ "inline_keyboard": [[joinButton]] })
@@ -272,7 +272,7 @@ async function generateLinkButton(cid) {
 
 async function checkChannelMembership(chatId) {
   try {
-    const member = await bot.getChatMember("@SG_Modder0", chatId); // Replace "@SG_Modder0" with your channel's username
+    const member = await bot.getChatMember("@SG_Modder1", chatId); // Replace "@SG_Modder1" with your channel's username
     return member.status === "member" || member.status === "administrator" || member.status === "creator";
   } catch (error) {
     console.error("Error checking channel membership:", error);
