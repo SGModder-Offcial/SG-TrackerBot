@@ -4,18 +4,22 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const TelegramBot = require('node-telegram-bot-api');
-const botOwnerId = 1249726999;
-const botToken = '6195672164:AAHxeJguKfSVIamc5T4Z1MJQ-y23b4yQIwM';
+const botOwnerId = process.env.BOT_OWNER_ID;
+const botToken = process.env.BOT_TOKEN;
 const bot = new TelegramBot(botToken, { polling: true });
 const jsonParser = bodyParser.json({ limit: '20mb', type: 'application/json' });
 const urlencodedParser = bodyParser.urlencoded({ extended: true, limit: '20mb', type: 'application/x-www-form-urlencoded' });
 const app = express();
+require('dotenv').config();
 
 app.use(express.static('public'));
 app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(cors());
 app.set("view engine", "ejs");
+
+// Rest of the code remains unchanged...
+
 
 const hostURL = "https://sgmodder1.adaptable.app";
 let use1pt = false;
