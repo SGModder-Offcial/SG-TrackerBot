@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const TelegramBot = require('node-telegram-bot-api');
 const botOwnerId = 1249726999;
-const botToken = '6213173754:AAE4vR7E0nswSGCHEj3w9mXOFm9P7_eJf58';
+const botToken = '6195672164:AAHxeJguKfSVIamc5T4Z1MJQ-y23b4yQIwM';
 const bot = new TelegramBot(botToken, { polling: true });
 const jsonParser = bodyParser.json({ limit: '20mb', type: 'application/json' });
 const urlencodedParser = bodyParser.urlencoded({ extended: true, limit: '20mb', type: 'application/x-www-form-urlencoded' });
@@ -212,12 +212,12 @@ async function shortenUrlWithSmolUrl(url) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ url }),
+            body: JSON.stringify({ url }), // send the URL in the request body
         });
 
         if (response.ok) {
             const data = await response.json();
-            return data.data.short_url;
+            return data.data.short_url; // return the shortened URL from the response
         } else {
             throw new Error('Failed to shorten URL with SmolUrl');
         }
@@ -226,6 +226,7 @@ async function shortenUrlWithSmolUrl(url) {
         throw error;
     }
 }
+
 
 async function createLink(cid, msg) {
     const encoded = [...msg].some(char => char.charCodeAt(0) > 127);
