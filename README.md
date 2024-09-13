@@ -1,4 +1,4 @@
-<h2 align='center'>Track Down people by just using a link.</h2>
+<h2 align='center'>SG Tracker Bot people by just using a link.</h2>
 
 <div align="center">
 
