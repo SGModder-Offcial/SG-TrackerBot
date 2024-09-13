@@ -4,8 +4,7 @@
 
 </div>
 
-This tool is based upon [Psi](https://github.com/SGModder-Offcial/SG-TrackerBot) .This is a telegram implementation with extra features than Psi.
-
+(https://github.com/SGModder-Offcial/SG-TrackerBot). 
 
 **Make sure you put `bot` as the secret's key , it's case sensitive.**
 
