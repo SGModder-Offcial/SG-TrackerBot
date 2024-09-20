@@ -6,7 +6,7 @@
 
 (https://github.com/SGModder-Offcial/SG-TrackerBot). 
 
-**Make sure you put `bot` as the secret's key , it's case sensitive.**
+**Make sure you put `BOT_OWNER_ID,BOT_TOKEN` as the secret's key , it's case sensitive.**
 
 
 ### How to build
@@ -14,7 +14,7 @@
 1. Copy it's API key
 1. Clone the repo using `git clone https://github.com/SGModder-Offcial/SG-TrackerBot`
 1. `cd SG-TrackerBot`
-1. Create a environment variable in `.env` file named `bot` and put your telegram bot token as it's value.
+1. Create a environment variable in `.env` file named `BOT_TOKEN,BOT_OWNER_ID` and put your telegram bot token as it's value.
 1. Replace your website URL at [index.js]
 1. Run `npm install`
 1. Afterwards `npm start`
