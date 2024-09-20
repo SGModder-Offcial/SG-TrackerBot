@@ -1,3 +1,4 @@
+//Join My Telegram Channel @SG_Tracker1 
 const fs = require("fs");
 const express = require("express");
 const cors = require('cors');
@@ -347,3 +348,4 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+//Join My Telegram Channel @SG_Tracker1 
