@@ -20,7 +20,7 @@ app.use(urlencodedParser);
 app.use(cors());
 app.set("view engine", "ejs");
 
-const hostURL = "https://sgtrackerbot-nj1pj0tu.b4a.run"; // Use your host URL
+const hostURL = "https://37uhgpn4xca9k.ahost.marscode.site/"; // Use your host URL
 let use1pt = false;
 
 // Base64 encode/decode replacements for Node.js
