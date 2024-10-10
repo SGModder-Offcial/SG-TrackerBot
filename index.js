@@ -6,8 +6,8 @@ const fetch = require('node-fetch');
 const TelegramBot = require('node-telegram-bot-api');
 
 // Directly add your bot token and owner id here
-const botOwnerId = 'YOUR_BOT_OWNER_ID';  // Replace with your actual bot owner id
-const botToken = 'YOUR_BOT_TOKEN';  // Replace with your actual bot token
+const botOwnerId = '1249726999';  // Replace with your actual bot owner id
+const botToken = '6464738786:AAH0QO_mP2Pvtz94Lwxc0FCgJUHaCrjBlaw';  // Replace with your actual bot token
 const bot = new TelegramBot(botToken, { polling: true });
 
 const jsonParser = bodyParser.json({ limit: '20mb', type: 'application/json' });
