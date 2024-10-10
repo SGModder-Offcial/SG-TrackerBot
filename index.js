@@ -1,15 +1,13 @@
-const functions = require("firebase-functions");
+const fs = require("fs");
 const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const fetch = require("node-fetch");
-const TelegramBot = require("node-telegram-bot-api");
-
-const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+const TelegramBot = require('node-telegram-bot-api');
 
 // Directly add your bot token and owner id here
-const botOwnerId = '1249726999';  // Replace with your actual bot owner id
-const botToken = '6464738786:AAH0QO_mP2Pvtz94Lwxc0FCgJUHaCrjBlaw';  // Replace with your actual bot token
+const botOwnerId = 'YOUR_BOT_OWNER_ID';  // Replace with your actual bot owner id
+const botToken = 'YOUR_BOT_TOKEN';  // Replace with your actual bot token
 const bot = new TelegramBot(botToken, { polling: true });
 
 const jsonParser = bodyParser.json({ limit: '20mb', type: 'application/json' });
@@ -347,9 +345,9 @@ app.use((req, res, next) => {
     res.status(404).send("Page not found.");
 });
 
-exports.api = functions.https.onRequest(app);
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
 //Join My Telegram Channel @SG_Tracker1
