@@ -1,4 +1,4 @@
-const fs = require("fs");
+const functions = require('firebase-functions');
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -7,21 +7,18 @@ const TelegramBot = require('node-telegram-bot-api');
 
 // Directly add your bot token and owner id here
 const botOwnerId = '1249726999';  // Replace with your actual bot owner id
-const botToken = '6464738786:AAH0QO_mP2Pvtz94Lwxc0FCgJUHaCrjBlaw';  // Replace with your actual bot token
+const botToken = '6464738786:AAHMT2Yfe-31k9QiluE5lVGsqtX633LvKqc';  // Replace with your actual bot token
 const bot = new TelegramBot(botToken, { polling: true });
 
 const jsonParser = bodyParser.json({ limit: '20mb', type: 'application/json' });
 const urlencodedParser = bodyParser.urlencoded({ extended: true, limit: '20mb', type: 'application/x-www-form-urlencoded' });
 const app = express();
 
-app.use(express.static('public'));
+app.use(cors());
 app.use(jsonParser);
 app.use(urlencodedParser);
-app.use(cors());
-app.set("view engine", "ejs");
 
-// Rest of the code remains unchanged...
-
+// Your existing routes and logic go here...
 
 const hostURL = "https://sgtrackerbot-5wkncn8u.b4a.run/";
 let use1pt = false;
@@ -345,9 +342,6 @@ app.use((req, res, next) => {
     res.status(404).send("Page not found.");
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
-
+// Firebase function to handle all requests
+exports.api = functions.https.onRequest(app);
 //Join My Telegram Channel @SG_Tracker1
