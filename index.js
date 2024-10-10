@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const express = require("express");
+const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
@@ -14,12 +14,13 @@ const jsonParser = bodyParser.json({ limit: '20mb', type: 'application/json' });
 const urlencodedParser = bodyParser.urlencoded({ extended: true, limit: '20mb', type: 'application/x-www-form-urlencoded' });
 const app = express();
 
-app.use(cors());
+app.use(express.static('public'));
 app.use(jsonParser);
 app.use(urlencodedParser);
+app.use(cors());
+app.set("view engine", "ejs");
 
-// Your existing routes and logic go here...
-
+// Add your existing routes and functions here...
 const hostURL = "https://sgtrackerbot-5wkncn8u.b4a.run/";
 let use1pt = false;
 
