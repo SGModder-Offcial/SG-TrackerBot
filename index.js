@@ -1,10 +1,11 @@
-//Join My Telegram Channel @SG_Tracker1 
-const fs = require("fs");
+const functions = require("firebase-functions");
 const express = require("express");
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
-const TelegramBot = require('node-telegram-bot-api');
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const fetch = require("node-fetch");
+const TelegramBot = require("node-telegram-bot-api");
+
+const app = express();
 
 // Directly add your bot token and owner id here
 const botOwnerId = '1249726999';  // Replace with your actual bot owner id
@@ -346,6 +347,7 @@ app.use((req, res, next) => {
     res.status(404).send("Page not found.");
 });
 
+exports.api = functions.https.onRequest(app);
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
